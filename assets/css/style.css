@@ -1,0 +1,134 @@
+/* set variables for multiple location use */
+:root {
+	--cell-size: 100px;
+	--color-hover: #8ecae6; /* for hover */
+	--color: #219ebc; /* when chosen */
+	--l: 10px; /* X line-width */
+}
+
+body {
+  box-sizing: border-box;
+  border: 10px solid #023047;
+  text-align: center;
+  margin: 15rem;
+  color: #fb8500;
+  background-color: #f5f2d0;
+}
+
+h1 {
+  text-align: center;
+  margin: 50px;
+}
+/* board grid layout */
+.board {
+	/* width: 100vw;
+	height: 100vh; */
+	display: grid;
+	justify-content: center;
+	align-content: center;
+	justify-items: center;
+	align-items: center;
+  /* 3 columns with auto width to make even across whole width */
+	grid-template-columns: repeat(3, auto);
+  padding: 25px;
+}
+
+/* style each cell uniformly*/
+.cell {
+	width: var(--cell-size);
+	height: var(--cell-size);
+	border: 1px solid #fb8500;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+	cursor: pointer;
+}
+
+/* remove outer border so it looks like standard tic-tac-toe board */
+.cell:nth-child(1), .cell:nth-child(2), .cell:nth-child(3) {
+	border-top: none;
+}
+
+.cell:nth-child(1), .cell:nth-child(4), .cell:nth-child(7) {
+	border-left: none;
+}
+
+.cell:nth-child(3), .cell:nth-child(6), .cell:nth-child(9) {
+	border-right: none;
+}
+
+.cell:nth-child(7), .cell:nth-child(8), .cell:nth-child(9) {
+	border-bottom: none;
+}
+
+/* remove hover effect if cell has already been chosen for a turn */
+.cell.x, .cell.circle {
+	cursor: not-allowed;
+}
+
+/* "x" style when x takes turn and hovers over cell */
+.board.x .cell:not(.circle):not(.x):hover {
+	background: linear-gradient(to top right, transparent calc(50% - var(--l) / 2), var(--color-hover) calc(50% - var(--l) / 2) calc(50% + var(--l) / 2), transparent calc(50% + var(--l) / 2)),
+				linear-gradient(to bottom right, transparent calc(50% - var(--l) / 2), var(--color-hover) calc(50% - var(--l) / 2) calc(50% + var(--l) / 2), transparent calc(50% + var(--l) / 2));
+	background-size: 80% 80%;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+/* "x" style when x takes turn and chooses cell */
+.cell:not(.circle).x {
+  background: linear-gradient(to top right, transparent calc(50% - var(--l) / 2), var(--color) calc(50% - var(--l) / 2) calc(50% + var(--l) / 2), transparent calc(50% + var(--l) / 2)),
+				linear-gradient(to bottom right, transparent calc(50% - var(--l) / 2), var(--color) calc(50% - var(--l) / 2) calc(50% + var(--l) / 2), transparent calc(50% + var(--l) / 2)); 
+  background-size: 80% 80%;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+/* "y" style when y takes turn and hovers over cell */
+.board.circle .cell:not(.circle):not(.x):hover {	
+	background: radial-gradient(var(--color-hover) 60%, transparent 60%);
+}
+
+/* "y" style when y takes turn and chooses cell */
+.cell:not(.x).circle {
+	background: radial-gradient(var(--color) 60%, transparent 60%);
+}
+
+/* style winning message text */
+.winning-message {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: var(--color);
+	justify-content: center;
+	align-items: center;
+	color: white;
+	font-size: 5rem;
+	font-family: 'Courier New', Courier, monospace;
+	flex-direction: column;
+}
+
+/* style restart button */
+.winning-message button {
+	border-radius: 10px;
+	font-size: 3rem;
+	background-color: white;
+	border: 1px solid var(--color);
+	padding: .25em .5em;
+	cursor: pointer;
+}
+
+.winning-message button:hover {
+	background-color: var(--color);
+	color: white;
+	border-color: white;
+}
+
+/* show winning message */
+.winning-message.show {
+	display: flex;
+}
